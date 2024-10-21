@@ -1,0 +1,11 @@
+[package]
+name = "nu_plugin_mongo"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+nu-plugin = { version = "0.99" }
+nu-protocol = { version = "0.99", features= ["plugin"]}
+mongodb = {version = "3", features = ["sync"]}
+bson = {version= "2", features=["chrono-0_4"]}
+chrono = "0.4"
