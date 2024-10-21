@@ -8,7 +8,7 @@ impl SimplePluginCommand for ListCollectionNames {
     type Plugin = MongoPlugin;
 
     fn name(&self) -> &str {
-        "mongoc list-collection-names"
+        "mongoc list-colls"
     }
 
     fn description(&self) -> &str {
@@ -16,7 +16,7 @@ impl SimplePluginCommand for ListCollectionNames {
     }
 
     fn signature(&self) -> nu_protocol::Signature {
-        Signature::build("mongoc list-collection-names")
+        Signature::build("mongoc list-colls")
             .named(
                 "db-handle",
                 SyntaxShape::Int,
@@ -31,12 +31,12 @@ impl SimplePluginCommand for ListCollectionNames {
         vec![
             Example {
                 description: "list collection names under current database handle",
-                example: "mongoc list-collection-names",
+                example: "mongoc list-colls",
                 result: None,
             },
             Example {
                 description: "list collection names with given database handle",
-                example: "mongoc list-collection-names -d 1",
+                example: "mongoc list-colls -d 1",
                 result: None,
             },
         ]
