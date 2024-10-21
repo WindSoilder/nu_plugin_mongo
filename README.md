@@ -33,7 +33,8 @@ Subcommands:
   mongoc find - find mongodb documents
   mongoc find-one - find mongodb documents
   mongoc list - list mongodb connections
-  mongoc open - open mongodb connection
+  mongoc list-collection-names - list all available collection names
+  mongoc open - open mongodb connection, the url must contains default databse
   mongoc remove - remove mongodb handles
   mongoc select - select current mongodb handle
 
@@ -45,5 +46,7 @@ Input/output types:
   │ # │  input  │ output │
   ├───┼─────────┼────────┤
   │ 0 │ nothing │ string │
+  ├───┼─────────┼────────┤
+  │ # │  input  │ output │
   ╰───┴─────────┴────────╯
 ```

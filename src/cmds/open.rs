@@ -12,7 +12,7 @@ impl SimplePluginCommand for Open {
     }
 
     fn description(&self) -> &str {
-        "open mongodb connection"
+        "open mongodb connection, the url must contains default databse"
     }
 
     fn signature(&self) -> nu_protocol::Signature {

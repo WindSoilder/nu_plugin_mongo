@@ -12,7 +12,7 @@ impl SimplePluginCommand for ListCollectionNames {
     }
 
     fn description(&self) -> &str {
-        "find mongodb documents"
+        "list all available collection names"
     }
 
     fn signature(&self) -> nu_protocol::Signature {
