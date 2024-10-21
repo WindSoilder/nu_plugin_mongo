@@ -121,6 +121,7 @@ impl Plugin for MongoPlugin {
             Box::new(Remove),
             Box::new(MongoCmd),
             Box::new(Select),
+            Box::new(ListCollectionNames),
         ]
     }
 }
