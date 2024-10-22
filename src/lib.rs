@@ -122,6 +122,7 @@ impl Plugin for MongoPlugin {
             Box::new(MongoCmd),
             Box::new(Select),
             Box::new(ListCollectionNames),
+            Box::new(ListIndexes),
         ]
     }
 }

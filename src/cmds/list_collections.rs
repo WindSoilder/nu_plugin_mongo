@@ -53,7 +53,10 @@ impl SimplePluginCommand for ListCollectionNames {
             None => plugin.get_handle(plugin.get_current()?, call.head)?,
             Some(db_handle) => plugin.get_handle(db_handle.item as u8, db_handle.span)?,
         };
-        let result = db.list_collection_names().run().unwrap();
+        let result = db
+            .list_collection_names()
+            .run()
+            .map_err(|e| LabeledError::new(format!("{e}")))?;
         let mut rows = vec![];
         for name in result {
             rows.push(Value::string(name, call.head))
