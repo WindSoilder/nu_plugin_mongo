@@ -4,6 +4,9 @@ version = "0.1.0"
 edition = "2021"
 description = "A nushell plugin to interactive with mongodb"
 license = "MIT"
+documentation = "https://github.com/WindSoilder/nu_plugin_mongo/README.md"
+homepage = "https://github.com/WindSoilder/nu_plugin_mongo"
+repository = "https://github.com/WindSoilder/nu_plugin_mongo" 
 
 [dependencies]
 nu-plugin = { version = "0.99" }
