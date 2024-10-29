@@ -1,6 +1,7 @@
 use super::val_converter::{doc_to_value, value_to_doc};
 use crate::MongoPlugin;
 use mongodb::bson::Document;
+use mongodb::options::FindOneOptions;
 use nu_plugin::SimplePluginCommand;
 use nu_protocol::{
     Category, Example, LabeledError, Record, Signature, Spanned, SyntaxShape, Type, Value,
@@ -34,6 +35,12 @@ impl SimplePluginCommand for FindOne {
                 "database handle, can get from `mongoc list`",
                 Some('d'),
             )
+            .named(
+                "sort",
+                SyntaxShape::Record(vec![]),
+                "sort option",
+                Some('s'),
+            )
             .input_output_type(Type::Nothing, Type::record())
             .category(Category::Database)
     }
@@ -48,6 +55,11 @@ impl SimplePluginCommand for FindOne {
             Example {
                 description: "find a teacher with name `John`, in a `teachers` collection",
                 example: "mongoc find-one {name: John} -d 0 -c teachers",
+                result: None,
+            },
+            Example {
+                description: "find a teacher with name `John`, sort by age descending",
+                example: "mongoc find {name: John} -d 0 -c teachers -s {\"age\": -1}",
                 result: None,
             },
         ]
@@ -69,9 +81,17 @@ impl SimplePluginCommand for FindOne {
             .get_flag("collection")?
             .expect("already check existed.");
         let query: Record = call.opt(0)?.unwrap_or_default();
-        let result = db
-            .collection::<Document>(&coll)
-            .find_one(value_to_doc(query)?)
+        let sort_options: Option<Record> = call.get_flag("sort")?;
+        let coll = db.collection::<Document>(&coll);
+        let mut find_one = coll.find_one(value_to_doc(query)?);
+        if let Some(sort_opt) = sort_options {
+            find_one = find_one.with_options(
+                FindOneOptions::builder()
+                    .sort(Some(value_to_doc(sort_opt)?))
+                    .build(),
+            )
+        }
+        let result = find_one
             .run()
             .map_err(|e| LabeledError::new(format!("{e}")))?;
 

@@ -1,6 +1,6 @@
 use super::val_converter::{doc_to_value, value_to_doc};
 use crate::MongoPlugin;
-use mongodb::bson::Document;
+use mongodb::{bson::Document, options::FindOptions};
 use nu_plugin::SimplePluginCommand;
 use nu_protocol::{
     Category, Example, LabeledError, Record, Signature, Spanned, SyntaxShape, Type, Value,
@@ -40,6 +40,12 @@ impl SimplePluginCommand for Find {
                 "limit rows to return, default is 10",
                 Some('l'),
             )
+            .named(
+                "sort",
+                SyntaxShape::Record(vec![]),
+                "sort option",
+                Some('s'),
+            )
             .input_output_type(Type::Nothing, Type::table())
             .category(Category::Database)
     }
@@ -54,6 +60,11 @@ impl SimplePluginCommand for Find {
             Example {
                 description: "find `teachers` with name `John`, returns 300 rows at max",
                 example: "mongoc find {name: John} -d 0 -c teachers -l 300",
+                result: None,
+            },
+            Example {
+                description: "find `teachers` with name `John`, sort by age ascending",
+                example: "mongoc find {name: John} -d 0 -c teachers -s {\"age\": 1}",
                 result: None,
             },
         ]
@@ -84,12 +95,17 @@ impl SimplePluginCommand for Find {
         }
         let limit = limit.item;
         let query: Record = call.opt(0)?.unwrap_or_default();
-        let result = db
-            .collection::<Document>(&coll)
-            .find(value_to_doc(query)?)
-            .limit(limit)
-            .run()
-            .map_err(|e| LabeledError::new(format!("{e}")))?;
+        let sort_options: Option<Record> = call.get_flag("sort")?;
+        let coll = db.collection::<Document>(&coll);
+        let mut find = coll.find(value_to_doc(query)?).limit(limit);
+        if let Some(sort_opt) = sort_options {
+            find = find.with_options(
+                FindOptions::builder()
+                    .sort(Some(value_to_doc(sort_opt)?))
+                    .build(),
+            )
+        };
+        let result = find.run().map_err(|e| LabeledError::new(format!("{e}")))?;
 
         let mut rows = vec![];
         for doc in result {
