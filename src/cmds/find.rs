@@ -97,14 +97,18 @@ impl SimplePluginCommand for Find {
         let query: Record = call.opt(0)?.unwrap_or_default();
         let sort_options: Option<Record> = call.get_flag("sort")?;
         let coll = db.collection::<Document>(&coll);
-        let mut find = coll.find(value_to_doc(query)?).limit(limit);
+        let mut find = coll.find(value_to_doc(query)?);
         if let Some(sort_opt) = sort_options {
-            find = find.with_options(
-                FindOptions::builder()
-                    .sort(Some(value_to_doc(sort_opt)?))
-                    .build(),
-            )
-        };
+            find = find
+                .with_options(
+                    FindOptions::builder()
+                        .sort(Some(value_to_doc(sort_opt)?))
+                        .build(),
+                )
+                .limit(limit);
+        } else {
+            find = find.limit(limit)
+        }
         let result = find.run().map_err(|e| LabeledError::new(format!("{e}")))?;
 
         let mut rows = vec![];
