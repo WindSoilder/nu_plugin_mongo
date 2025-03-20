@@ -1,4 +1,7 @@
 mod count;
+mod delete_many;
+mod delete_one;
+mod drop;
 mod estimated;
 mod find;
 mod find_one;
@@ -12,6 +15,9 @@ mod select_handle;
 mod val_converter;
 
 pub use count::*;
+pub use delete_many::*;
+pub use delete_one::*;
+pub use drop::*;
 pub use estimated::*;
 pub use find::*;
 pub use find_one::*;

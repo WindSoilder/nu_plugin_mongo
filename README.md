@@ -31,8 +31,6 @@ cargo install nu_plugin_mongo
 ## Full help
 
 ```nushell
-> mongoc
-
 Operate with mongodb
 
 You must use one of the following subcommands. Using this command as-is will only produce this help message.
@@ -41,14 +39,19 @@ Usage:
   > mongoc
 
 Subcommands:
-  mongoc find - find mongodb documents
-  mongoc find-one - find mongodb documents
-  mongoc list - list mongodb connections
-  mongoc list-colls - list all available collection names
-  mongoc list-indexes - find mongodb documents
-  mongoc open - open mongodb connection, the url must contains default databse
-  mongoc remove - remove mongodb handles
-  mongoc select - select current mongodb handle
+  mongoc count (plugin) - count mongodb documents
+  mongoc delete-many (plugin) - delete many mongodb documents
+  mongoc delete-one (plugin) - delete one mongodb document
+  mongoc drop (plugin) - drop a mongodb collection
+  mongoc estimated (plugin) - estimated mongodb documents count
+  mongoc find (plugin) - find mongodb documents
+  mongoc find-one (plugin) - find mongodb documents
+  mongoc list (plugin) - list mongodb connections
+  mongoc list-colls (plugin) - list all available collection names
+  mongoc list-indexes (plugin) - find mongodb documents
+  mongoc open (plugin) - open mongodb connection, the url must contains default databse
+  mongoc remove (plugin) - remove mongodb handles
+  mongoc select (plugin) - select current mongodb handle
 
 Flags:
   -h, --help: Display the help message for this command
