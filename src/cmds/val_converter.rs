@@ -86,6 +86,7 @@ fn to_bson(v: Value) -> Result<Bson, LabeledError> {
             }
             Bson::Array(array_vals)
         }
+        Value::Nothing { .. } => Bson::Null,
         other => {
             return Err(
                 LabeledError::new("can't convert to mongo doc".to_string()).with_label(
