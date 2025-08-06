@@ -11,7 +11,7 @@ pub fn doc_to_value(doc: Document, span: Span) -> Value {
             Bson::String(s) => Value::string(s, span),
             Bson::Boolean(v) => Value::bool(v, span),
             Bson::Int32(i) => Value::int(i.into(), span),
-            Bson::Int64(i) => Value::int(i.into(), span),
+            Bson::Int64(i) => Value::int(i, span),
             Bson::ObjectId(oid) => Value::string(oid.to_string(), span),
             Bson::Document(d) => doc_to_value(d, span),
             Bson::DateTime(dt) => Value::date(dt.to_chrono().into(), span),
@@ -63,7 +63,7 @@ fn to_bson(v: Value) -> Result<Bson, LabeledError> {
                 let object_id = val.trim_start_matches("ObjectId");
                 match bson::oid::ObjectId::parse_str(object_id) {
                     Err(e) => {
-                        return Err(LabeledError::new(format!("invalid ObjectId"))
+                        return Err(LabeledError::new("invalid ObjectId".to_string())
                             .with_label(format!("{e}"), val_span));
                     }
                     Ok(object_id) => Bson::ObjectId(object_id),
@@ -88,7 +88,7 @@ fn to_bson(v: Value) -> Result<Bson, LabeledError> {
         }
         other => {
             return Err(
-                LabeledError::new(format!("can't convert to mongo doc")).with_label(
+                LabeledError::new("can't convert to mongo doc".to_string()).with_label(
                     format!("invalid value type: {}", other.get_type()),
                     val_span,
                 ),

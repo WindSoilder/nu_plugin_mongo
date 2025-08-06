@@ -23,11 +23,17 @@ pub struct MongoPlugin {
     handlers: RwLock<Handle>,
 }
 
-impl MongoPlugin {
-    pub fn new() -> Self {
+impl Default for MongoPlugin {
+    fn default() -> Self {
         Self {
             handlers: RwLock::new(Handle::new()),
         }
+    }
+}
+
+impl MongoPlugin {
+    pub fn new() -> Self {
+        Self::default()
     }
 
     pub fn connect(&self, conn_str: &str) -> Result<u8, LabeledError> {
@@ -35,9 +41,9 @@ impl MongoPlugin {
             .map_err(|err| LabeledError::new(format!("{err}")))
             .map(|c| c.default_database());
         match conn {
-            Err(e) => return Err(e),
+            Err(e) => Err(e),
             Ok(conn) => match conn {
-                None => return Err(LabeledError::new("No default database in connection url")),
+                None => Err(LabeledError::new("No default database in connection url")),
                 Some(db) => {
                     let mut write_guard = self.handlers.write().expect("write lock should success");
                     let id = write_guard.inner.len() as u8;
@@ -61,10 +67,9 @@ impl MongoPlugin {
     pub fn get_handle(&self, id: u8, span: Span) -> Result<Database, LabeledError> {
         let read_guard = self.handlers.read().expect("read lock should success");
         let result = read_guard.inner.get(&id).ok_or_else(|| {
-            let err = LabeledError::new("database handle doesn't exist")
+            LabeledError::new("database handle doesn't exist")
                 .with_label("not existed database handle", span)
-                .with_help("You can run `mongoc list` to list all available handles, or `mongoc open` to open a new handle");
-            err
+                .with_help("You can run `mongoc list` to list all available handles, or `mongoc open` to open a new handle")
         })?;
         Ok(result.0.clone())
     }
@@ -72,10 +77,9 @@ impl MongoPlugin {
     pub fn remove_handle(&self, id: u8, span: Span) -> Result<(), LabeledError> {
         let mut write_guard = self.handlers.write().expect("write lock should success");
         write_guard.inner.remove(&id).ok_or_else(|| {
-            let err = LabeledError::new("database handle doesn't exist")
+            LabeledError::new("database handle doesn't exist")
                 .with_label("not existed database handle", span)
-                .with_help("You can run `mongoc list` to list all available handles, or `mongoc open` to open a new handle");
-            err
+                .with_help("You can run `mongoc list` to list all available handles, or `mongoc open` to open a new handle")
         })?;
         // if remove current handle, reset the id.
         if write_guard.current == id {
