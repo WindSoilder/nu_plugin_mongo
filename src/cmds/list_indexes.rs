@@ -3,7 +3,7 @@ use bson::ser::to_document;
 use mongodb::bson::Document;
 use nu_plugin::SimplePluginCommand;
 use nu_protocol::{
-    record, Category, Example, LabeledError, Signature, Spanned, SyntaxShape, Type, Value,
+    Category, Example, LabeledError, Signature, Spanned, SyntaxShape, Type, Value, record,
 };
 
 pub struct ListIndexes;

@@ -42,8 +42,7 @@ impl SimplePluginCommand for Estimated {
                 result: None,
             },
             Example {
-                description:
-                    "estimated teachers count with name `John`, in a `teachers` collection",
+                description: "estimated teachers count with name `John`, in a `teachers` collection",
                 example: "mongoc estimated {name: John} -d 0 -c teachers",
                 result: None,
             },
