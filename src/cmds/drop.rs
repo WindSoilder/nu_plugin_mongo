@@ -72,4 +72,15 @@ impl SimplePluginCommand for Drop {
 
         Ok(Value::nothing(call.head))
     }
+    fn get_completion(
+        &self,
+        plugin: &Self::Plugin,
+        _engine: &nu_plugin::EngineInterface,
+        flag_name: &str,
+    ) -> Option<Vec<String>> {
+        match flag_name {
+            "collection" => super::get_collection_names_at_current_handle(plugin),
+            _ => None,
+        }
+    }
 }
