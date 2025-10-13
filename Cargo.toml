@@ -9,8 +9,10 @@ homepage = "https://github.com/WindSoilder/nu_plugin_mongo"
 repository = "https://github.com/WindSoilder/nu_plugin_mongo" 
 
 [dependencies]
-nu-plugin = { version = "0.107" }
-nu-protocol = { version = "0.107", features= ["plugin"]}
+# nu-plugin = { version = "0.107" }
+# nu-protocol = { version = "0.107", features= ["plugin"]}
+nu-plugin = { path = "/home/chz/projects/rust_online_code/nushell/crates/nu-plugin" }
+nu-protocol = { path = "/home/chz/projects/rust_online_code/nushell/crates/nu-protocol" }
 mongodb = {version = "3", features = ["sync"]}
 bson = {version= "2", features=["chrono-0_4"]}
 chrono = "0.4"
