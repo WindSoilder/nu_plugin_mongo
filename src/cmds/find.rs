@@ -1,3 +1,4 @@
+use super::get_collection_names_at_current_handle;
 use super::val_converter::{doc_to_value, value_to_doc};
 use crate::MongoPlugin;
 use mongodb::{bson::Document, options::FindOptions};
@@ -117,5 +118,16 @@ impl SimplePluginCommand for Find {
             rows.push(doc_to_value(doc, call.head))
         }
         Ok(Value::list(rows, call.head))
+    }
+    fn get_completion(
+        &self,
+        plugin: &Self::Plugin,
+        _engine: &nu_plugin::EngineInterface,
+        flag_name: &str,
+    ) -> Option<Vec<String>> {
+        match flag_name {
+            "collection" => get_collection_names_at_current_handle(plugin),
+            _ => None,
+        }
     }
 }
