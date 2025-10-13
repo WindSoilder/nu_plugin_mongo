@@ -64,7 +64,7 @@ fn to_bson(v: Value) -> Result<Bson, LabeledError> {
                 match bson::oid::ObjectId::parse_str(object_id) {
                     Err(e) => {
                         return Err(LabeledError::new(format!("invalid ObjectId"))
-                            .with_label(format!("{e}"), val_span))
+                            .with_label(format!("{e}"), val_span));
                     }
                     Ok(object_id) => Bson::ObjectId(object_id),
                 }
@@ -92,7 +92,7 @@ fn to_bson(v: Value) -> Result<Bson, LabeledError> {
                     format!("invalid value type: {}", other.get_type()),
                     val_span,
                 ),
-            )
+            );
         }
     };
     Ok(bson_val)

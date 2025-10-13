@@ -1,6 +1,6 @@
 use crate::MongoPlugin;
 use nu_plugin::SimplePluginCommand;
-use nu_protocol::{record, Category, LabeledError, Signature, Type, Value};
+use nu_protocol::{Category, LabeledError, Signature, Type, Value, record};
 
 pub struct List;
 impl SimplePluginCommand for List {

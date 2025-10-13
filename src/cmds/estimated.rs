@@ -42,8 +42,7 @@ impl SimplePluginCommand for Estimated {
                 result: None,
             },
             Example {
-                description:
-                    "estimated teachers count with name `John`, in a `teachers` collection",
+                description: "estimated teachers count with name `John`, in a `teachers` collection",
                 example: "mongoc estimated {name: John} -d 0 -c teachers",
                 result: None,
             },
@@ -76,5 +75,16 @@ impl SimplePluginCommand for Estimated {
             .run()
             .map_err(|e| LabeledError::new(format!("{e}")))?;
         Ok(Value::int(result as i64, call.head))
+    }
+    fn get_completion(
+        &self,
+        plugin: &Self::Plugin,
+        _engine: &nu_plugin::EngineInterface,
+        flag_name: &str,
+    ) -> Option<Vec<String>> {
+        match flag_name {
+            "collection" => super::get_collection_names_at_current_handle(plugin),
+            _ => None,
+        }
     }
 }

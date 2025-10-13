@@ -3,7 +3,7 @@ use bson::ser::to_document;
 use mongodb::bson::Document;
 use nu_plugin::SimplePluginCommand;
 use nu_protocol::{
-    record, Category, Example, LabeledError, Signature, Spanned, SyntaxShape, Type, Value,
+    Category, Example, LabeledError, Signature, Spanned, SyntaxShape, Type, Value, record,
 };
 
 pub struct ListIndexes;
@@ -81,5 +81,16 @@ impl SimplePluginCommand for ListIndexes {
             rows.push(rec)
         }
         Ok(Value::list(rows, call.head))
+    }
+    fn get_completion(
+        &self,
+        plugin: &Self::Plugin,
+        _engine: &nu_plugin::EngineInterface,
+        flag_name: &str,
+    ) -> Option<Vec<String>> {
+        match flag_name {
+            "collection" => super::get_collection_names_at_current_handle(plugin),
+            _ => None,
+        }
     }
 }
