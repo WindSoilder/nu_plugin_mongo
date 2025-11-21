@@ -1,9 +1,10 @@
 use super::val_converter::value_to_doc;
 use crate::MongoPlugin;
 use mongodb::bson::Document;
-use nu_plugin::SimplePluginCommand;
+use nu_plugin::{DynamicCompletionCall, EngineInterface, SimplePluginCommand};
 use nu_protocol::{
-    Category, Example, LabeledError, Record, Signature, Spanned, SyntaxShape, Type, Value,
+    Category, DynamicSuggestion, Example, LabeledError, Record, Signature, Spanned, SyntaxShape,
+    Type, Value, engine::ArgType,
 };
 
 pub struct DeleteMany;
@@ -77,14 +78,18 @@ impl SimplePluginCommand for DeleteMany {
 
         Ok(Value::nothing(call.head))
     }
-    fn get_completion(
+    fn get_dynamic_completion(
         &self,
         plugin: &Self::Plugin,
-        _engine: &nu_plugin::EngineInterface,
-        flag_name: &str,
-    ) -> Option<Vec<String>> {
-        match flag_name {
-            "collection" => super::get_collection_names_at_current_handle(plugin),
+        _engine: &EngineInterface,
+        _call: DynamicCompletionCall,
+        arg_type: ArgType,
+        _experimental: nu_protocol::engine::ExperimentalMarker,
+    ) -> Option<Vec<DynamicSuggestion>> {
+        match arg_type {
+            ArgType::Flag(name) if name == "collection" => {
+                super::get_collection_names_at_current_handle(plugin)
+            }
             _ => None,
         }
     }

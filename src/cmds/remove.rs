@@ -1,6 +1,9 @@
 use crate::MongoPlugin;
-use nu_plugin::SimplePluginCommand;
-use nu_protocol::{Category, Example, LabeledError, Signature, Spanned, SyntaxShape, Type, Value};
+use nu_plugin::{DynamicCompletionCall, EngineInterface, SimplePluginCommand};
+use nu_protocol::{
+    Category, DynamicSuggestion, Example, LabeledError, Signature, Spanned, SyntaxShape, Type,
+    Value, engine::ArgType,
+};
 
 pub struct Remove;
 
@@ -45,14 +48,18 @@ impl SimplePluginCommand for Remove {
         plugin.remove_handle(handle_id.item as u8, handle_id.span)?;
         Ok(Value::nothing(call.head))
     }
-    fn get_completion(
+    fn get_dynamic_completion(
         &self,
         plugin: &Self::Plugin,
-        _engine: &nu_plugin::EngineInterface,
-        flag_name: &str,
-    ) -> Option<Vec<String>> {
-        match flag_name {
-            "collection" => super::get_collection_names_at_current_handle(plugin),
+        _engine: &EngineInterface,
+        _call: DynamicCompletionCall,
+        arg_type: ArgType,
+        _experimental: nu_protocol::engine::ExperimentalMarker,
+    ) -> Option<Vec<DynamicSuggestion>> {
+        match arg_type {
+            ArgType::Flag(name) if name == "collection" => {
+                super::get_collection_names_at_current_handle(plugin)
+            }
             _ => None,
         }
     }

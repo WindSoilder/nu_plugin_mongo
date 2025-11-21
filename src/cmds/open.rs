@@ -1,5 +1,5 @@
 use crate::MongoPlugin;
-use nu_plugin::SimplePluginCommand;
+use nu_plugin::{DynamicCompletionCall, EngineInterface, SimplePluginCommand};
 use nu_protocol::{Category, Example, LabeledError, Signature, SyntaxShape, Type, Value};
 
 pub struct Open;

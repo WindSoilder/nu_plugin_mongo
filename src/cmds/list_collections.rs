@@ -1,6 +1,9 @@
 use crate::MongoPlugin;
-use nu_plugin::SimplePluginCommand;
-use nu_protocol::{Category, Example, LabeledError, Signature, Spanned, SyntaxShape, Type, Value};
+use nu_plugin::{DynamicCompletionCall, EngineInterface, SimplePluginCommand};
+use nu_protocol::{
+    Category, DynamicSuggestion, Example, LabeledError, Signature, Spanned, SyntaxShape, Type,
+    Value, engine::ArgType,
+};
 
 pub struct ListCollectionNames;
 
