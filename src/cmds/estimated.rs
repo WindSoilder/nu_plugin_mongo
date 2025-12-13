@@ -1,7 +1,10 @@
 use crate::MongoPlugin;
 use mongodb::bson::Document;
-use nu_plugin::SimplePluginCommand;
-use nu_protocol::{Category, Example, LabeledError, Signature, Spanned, SyntaxShape, Type, Value};
+use nu_plugin::{DynamicCompletionCall, EngineInterface, SimplePluginCommand};
+use nu_protocol::{
+    Category, DynamicSuggestion, Example, LabeledError, Signature, Spanned, SyntaxShape, Type,
+    Value, engine::ArgType,
+};
 
 pub struct Estimated;
 
@@ -42,8 +45,7 @@ impl SimplePluginCommand for Estimated {
                 result: None,
             },
             Example {
-                description:
-                    "estimated teachers count with name `John`, in a `teachers` collection",
+                description: "estimated teachers count with name `John`, in a `teachers` collection",
                 example: "mongoc estimated {name: John} -d 0 -c teachers",
                 result: None,
             },
@@ -76,5 +78,21 @@ impl SimplePluginCommand for Estimated {
             .run()
             .map_err(|e| LabeledError::new(format!("{e}")))?;
         Ok(Value::int(result as i64, call.head))
+    }
+
+    fn get_dynamic_completion(
+        &self,
+        plugin: &Self::Plugin,
+        _engine: &EngineInterface,
+        _call: DynamicCompletionCall,
+        arg_type: ArgType,
+        _experimental: nu_protocol::engine::ExperimentalMarker,
+    ) -> Option<Vec<DynamicSuggestion>> {
+        match arg_type {
+            ArgType::Flag(name) if name == "collection" => {
+                super::get_collection_names_at_current_handle(plugin)
+            }
+            _ => None,
+        }
     }
 }

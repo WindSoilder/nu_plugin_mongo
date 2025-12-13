@@ -1,9 +1,10 @@
 use crate::MongoPlugin;
 use bson::ser::to_document;
 use mongodb::bson::Document;
-use nu_plugin::SimplePluginCommand;
+use nu_plugin::{DynamicCompletionCall, EngineInterface, SimplePluginCommand};
 use nu_protocol::{
-    record, Category, Example, LabeledError, Signature, Spanned, SyntaxShape, Type, Value,
+    Category, DynamicSuggestion, Example, LabeledError, Signature, Spanned, SyntaxShape, Type,
+    Value, engine::ArgType, record,
 };
 
 pub struct ListIndexes;
@@ -81,5 +82,20 @@ impl SimplePluginCommand for ListIndexes {
             rows.push(rec)
         }
         Ok(Value::list(rows, call.head))
+    }
+    fn get_dynamic_completion(
+        &self,
+        plugin: &Self::Plugin,
+        _engine: &EngineInterface,
+        _call: DynamicCompletionCall,
+        arg_type: ArgType,
+        _experimental: nu_protocol::engine::ExperimentalMarker,
+    ) -> Option<Vec<DynamicSuggestion>> {
+        match arg_type {
+            ArgType::Flag(name) if name == "collection" => {
+                super::get_collection_names_at_current_handle(plugin)
+            }
+            _ => None,
+        }
     }
 }

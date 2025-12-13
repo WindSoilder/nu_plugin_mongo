@@ -1,4 +1,5 @@
 mod count;
+mod current_coll_names;
 mod delete_many;
 mod delete_one;
 mod drop;
@@ -15,6 +16,7 @@ mod select_handle;
 mod val_converter;
 
 pub use count::*;
+pub(super) use current_coll_names::get_collection_names_at_current_handle;
 pub use delete_many::*;
 pub use delete_one::*;
 pub use drop::*;

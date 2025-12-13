@@ -1,9 +1,11 @@
+use super::get_collection_names_at_current_handle;
 use super::val_converter::{doc_to_value, value_to_doc};
 use crate::MongoPlugin;
 use mongodb::{bson::Document, options::FindOptions};
-use nu_plugin::SimplePluginCommand;
+use nu_plugin::{DynamicCompletionCall, EngineInterface, SimplePluginCommand};
 use nu_protocol::{
-    Category, Example, LabeledError, Record, Signature, Spanned, SyntaxShape, Type, Value,
+    Category, DynamicSuggestion, Example, LabeledError, Record, Signature, Spanned, SyntaxShape,
+    Type, Value, engine::ArgType,
 };
 
 pub struct Find;
@@ -117,5 +119,20 @@ impl SimplePluginCommand for Find {
             rows.push(doc_to_value(doc, call.head))
         }
         Ok(Value::list(rows, call.head))
+    }
+    fn get_dynamic_completion(
+        &self,
+        plugin: &Self::Plugin,
+        _engine: &EngineInterface,
+        _call: DynamicCompletionCall,
+        arg_type: ArgType,
+        _experimental: nu_protocol::engine::ExperimentalMarker,
+    ) -> Option<Vec<DynamicSuggestion>> {
+        match arg_type {
+            ArgType::Flag(name) if name == "collection" => {
+                super::get_collection_names_at_current_handle(plugin)
+            }
+            _ => None,
+        }
     }
 }

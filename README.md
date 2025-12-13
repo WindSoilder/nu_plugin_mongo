@@ -6,6 +6,8 @@ Sometimes I want to explore mongodb data, but I don't want to open `mongo` shell
 
 I want to have more lite weight tool to explore data.  So here is the plugin.
 
+Starts from 0.1.9, it support auto-completions for collection names, and it requires nushell version to be 0.109.
+
 ## Demo
 
 <p align="center">
