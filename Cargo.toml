@@ -1,6 +1,6 @@
 [package]
 name = "nu_plugin_mongo"
-version = "0.1.9"
+version = "0.1.10"
 edition = "2024"
 description = "A nushell plugin to interactive with mongodb"
 license = "MIT"
@@ -9,8 +9,8 @@ homepage = "https://github.com/WindSoilder/nu_plugin_mongo"
 repository = "https://github.com/WindSoilder/nu_plugin_mongo" 
 
 [dependencies]
-nu-plugin = { version = "0.109" }
-nu-protocol = { version = "0.109", features= ["plugin"]}
+nu-plugin = { version = "0.110" }
+nu-protocol = { version = "0.110", features= ["plugin"]}
 mongodb = {version = "=3.2", features = ["sync"]}
 bson = {version= "2", features=["chrono-0_4"]}
 chrono = "0.4"
