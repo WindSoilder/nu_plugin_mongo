@@ -19,10 +19,13 @@ impl SimplePluginCommand for List {
             .category(Category::Database)
             .input_output_type(
                 Type::Nothing,
-                Type::List(Box::new(Type::Record(Box::new([
-                    ("id".to_string(), Type::Int),
-                    ("addr".to_string(), Type::String),
-                ])))),
+                Type::List(Box::new(Type::Record(
+                    vec![
+                        ("id".to_string(), Type::Int),
+                        ("addr".to_string(), Type::String),
+                    ]
+                    .into(),
+                ))),
             )
     }
 

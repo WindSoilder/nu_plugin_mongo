@@ -22,7 +22,11 @@ impl SimplePluginCommand for DeleteOne {
 
     fn signature(&self) -> nu_protocol::Signature {
         Signature::build("mongoc delete-one")
-            .optional("query object", SyntaxShape::Record(vec![]), "query object")
+            .optional(
+                "query object",
+                SyntaxShape::Record(vec![].into()),
+                "query object",
+            )
             .required_named(
                 "collection",
                 SyntaxShape::String,

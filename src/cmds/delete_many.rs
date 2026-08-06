@@ -22,7 +22,11 @@ impl SimplePluginCommand for DeleteMany {
 
     fn signature(&self) -> nu_protocol::Signature {
         Signature::build("mongoc delete-many")
-            .optional("query object", SyntaxShape::Record(vec![]), "query object")
+            .optional(
+                "query object",
+                SyntaxShape::Record(vec![].into()),
+                "query object",
+            )
             .required_named(
                 "collection",
                 SyntaxShape::String,
