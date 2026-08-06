@@ -42,9 +42,11 @@ Usage:
 
 Subcommands:
   mongoc count (plugin) - count mongodb documents
+  mongoc create-index (plugin) - create a mongodb index
   mongoc delete-many (plugin) - delete many mongodb documents
   mongoc delete-one (plugin) - delete one mongodb document
   mongoc drop (plugin) - drop a mongodb collection
+  mongoc drop-index (plugin) - drop a mongodb index
   mongoc estimated (plugin) - estimated mongodb documents count
   mongoc find (plugin) - find mongodb documents
   mongoc find-one (plugin) - find mongodb documents

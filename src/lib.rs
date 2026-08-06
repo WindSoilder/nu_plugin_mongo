@@ -126,6 +126,8 @@ impl Plugin for MongoPlugin {
             Box::new(Select),
             Box::new(ListCollectionNames),
             Box::new(ListIndexes),
+            Box::new(CreateIndex),
+            Box::new(DropIndex),
             Box::new(Count),
             Box::new(Estimated),
         ]

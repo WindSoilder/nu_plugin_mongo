@@ -1,8 +1,10 @@
 mod count;
+mod create_index;
 mod current_coll_names;
 mod delete_many;
 mod delete_one;
 mod drop;
+mod drop_index;
 mod estimated;
 mod find;
 mod find_one;
@@ -16,10 +18,12 @@ mod select_handle;
 mod val_converter;
 
 pub use count::*;
+pub use create_index::*;
 pub(super) use current_coll_names::get_collection_names_at_current_handle;
 pub use delete_many::*;
 pub use delete_one::*;
 pub use drop::*;
+pub use drop_index::*;
 pub use estimated::*;
 pub use find::*;
 pub use find_one::*;
