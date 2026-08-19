@@ -77,7 +77,7 @@ fn to_bson(v: Value) -> Result<Bson, LabeledError> {
         }
         Value::Binary { val, .. } => Bson::Binary(bson::Binary {
             subtype: bson::spec::BinarySubtype::Generic,
-            bytes: val,
+            bytes: val.into_owned(),
         }),
         Value::List { vals, .. } => {
             let mut array_vals = vec![];
