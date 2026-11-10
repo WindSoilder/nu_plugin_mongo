@@ -1986,7 +1986,7 @@ dependencies = [
 
 [[package]]
 name = "nu_plugin_mongo"
-version = "0.1.15"
+version = "0.1.17"
 dependencies = [
  "bson",
  "chrono",
